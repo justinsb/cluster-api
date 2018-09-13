@@ -111,7 +111,7 @@ spec:
               format: int32
               type: integer
           type: object
-      type: object
+      #type: object
   version: v1alpha1
 status:
   acceptedNames:
