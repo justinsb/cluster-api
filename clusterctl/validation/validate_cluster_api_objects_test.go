@@ -19,36 +19,34 @@ package validation
 import (
 	"bytes"
 	"io/ioutil"
-	"os"
 	"path"
 	"testing"
 
-	"github.com/kubernetes-incubator/apiserver-builder/pkg/test"
+	//	"github.com/kubernetes-incubator/apiserver-builder/pkg/test"
 	"k8s.io/api/core/v1"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/kubernetes/fake"
-	"sigs.k8s.io/cluster-api/pkg/apis"
 	"sigs.k8s.io/cluster-api/pkg/apis/cluster/common"
 	"sigs.k8s.io/cluster-api/pkg/apis/cluster/v1alpha1"
 	"sigs.k8s.io/cluster-api/pkg/apis/cluster/v1alpha1/testutil"
 	"sigs.k8s.io/cluster-api/pkg/client/clientset_generated/clientset"
-	"sigs.k8s.io/cluster-api/pkg/openapi"
 )
 
 var clusterApiClient *clientset.Clientset
 var k8sClient kubernetes.Interface
 
 func TestMain(m *testing.M) {
-	testenv := test.NewTestEnvironment()
-	config := testenv.Start(apis.GetAllApiBuilders(), openapi.GetOpenAPIDefinitions)
-	clusterApiClient = clientset.NewForConfigOrDie(config)
-	k8sClient = fake.NewSimpleClientset()
+	/*	testenv := test.NewTestEnvironment()
+		config := testenv.Start(apis.GetAllApiBuilders(), openapi.GetOpenAPIDefinitions)
+		clusterApiClient = clientset.NewForConfigOrDie(config)
+		k8sClient = fake.NewSimpleClientset()
 
-	code := m.Run()
+		code := m.Run()
 
-	testenv.Stop()
-	os.Exit(code)
+		testenv.Stop()
+		os.Exit(code)
+	*/
+	panic("test depended on apiserver-builder")
 }
 
 func getClusterWithError(clusterName string, errorReason common.ClusterStatusError, errorMessage string) v1alpha1.Cluster {
@@ -95,7 +93,7 @@ func getNodeWithReadyStatus(nodeName string, nodeReadyStatus v1.ConditionStatus)
 		Status: v1.NodeStatus{
 			Conditions: []v1.NodeCondition{
 				v1.NodeCondition{
-					Type: v1.NodeReady,
+					Type:   v1.NodeReady,
 					Status: nodeReadyStatus,
 				},
 			},
@@ -367,24 +365,24 @@ func TestValidateMachineObjectWithReferredNode(t *testing.T) {
 	testNodeNotExistName := "test-node-not-exist"
 
 	var testcases = []struct {
-		name         string
-		nodeRef      v1.ObjectReference
-		expectErr    bool
+		name      string
+		nodeRef   v1.ObjectReference
+		expectErr bool
 	}{
 		{
-			name:         "Machine's ref node is ready",
-			nodeRef:      v1.ObjectReference{Kind: "Node", Name: testNodeReadyName},
-			expectErr:    false,
+			name:      "Machine's ref node is ready",
+			nodeRef:   v1.ObjectReference{Kind: "Node", Name: testNodeReadyName},
+			expectErr: false,
 		},
 		{
-			name:         "Machine's ref node is not ready",
-			nodeRef:      v1.ObjectReference{Kind: "Node", Name: testNodeNotReadyName},
-			expectErr:    true,
+			name:      "Machine's ref node is not ready",
+			nodeRef:   v1.ObjectReference{Kind: "Node", Name: testNodeNotReadyName},
+			expectErr: true,
 		},
 		{
-			name:         "Machine's ref node does not exist",
-			nodeRef:      v1.ObjectReference{Kind: "Node", Name: testNodeNotExistName},
-			expectErr:    true,
+			name:      "Machine's ref node does not exist",
+			nodeRef:   v1.ObjectReference{Kind: "Node", Name: testNodeNotExistName},
+			expectErr: true,
 		},
 	}
 	for _, testcase := range testcases {
@@ -543,7 +541,5 @@ func TestValidateClusterAPIObjectsOutput(t *testing.T) {
 			}
 		})
 	}
-
-
 
 }
