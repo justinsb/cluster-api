@@ -187,8 +187,11 @@ func (r *ReconcileMachineSet) Reconcile(request reconcile.Request) (reconcile.Re
 		}
 		return reconcile.Result{}, fmt.Errorf("failed to update machine set status. %v", err)
 	}
-	if updatedMS.Spec.Replicas == nil {
-		return reconcile.Result{}, fmt.Errorf("the Replicas field in Spec for machineset %v is nil, this should not be allowed.", ms.Name)
+
+	replicas := int32(0)
+	if updatedMS.Spec.Replicas != nil {
+		replicas = *updatedMS.Spec.Replicas
+		//return reconcile.Result{}, fmt.Errorf("the Replicas field in Spec for machineset %v is nil, this should not be allowed.", ms.Name)
 	}
 
 	// Resync the MachineSet after MinReadySeconds as a last line of defense to guard against clock-skew.
@@ -199,8 +202,8 @@ func (r *ReconcileMachineSet) Reconcile(request reconcile.Request) (reconcile.Re
 	// To avoid an available replica stuck in the ready state, we force a reconcile after MinReadySeconds,
 	// at which point it should confirm any available replica to be available.
 	if syncErr == nil && updatedMS.Spec.MinReadySeconds > 0 &&
-		updatedMS.Status.ReadyReplicas == *(updatedMS.Spec.Replicas) &&
-		updatedMS.Status.AvailableReplicas != *(updatedMS.Spec.Replicas) {
+		updatedMS.Status.ReadyReplicas == replicas &&
+		updatedMS.Status.AvailableReplicas != replicas {
 
 		return reconcile.Result{Requeue: true}, nil
 	}
