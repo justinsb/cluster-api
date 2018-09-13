@@ -1,10 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load(
-    "@io_bazel_rules_go//go:def.bzl",
-    "go_library",
-    "go_test",
-)
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "go_default_library",
@@ -22,6 +18,7 @@ go_library(
         "zz_generated.deepcopy.go",
         "zz_generated.defaults.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1",
     importpath = "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1",
     deps = [
         "//vendor/github.com/gogo/protobuf/proto:go_default_library",
@@ -52,17 +49,4 @@ filegroup(
     name = "go_default_library_protos",
     srcs = ["generated.proto"],
     visibility = ["//visibility:public"],
-)
-
-go_test(
-    name = "go_default_test",
-    srcs = [
-        "conversion_test.go",
-        "marshal_test.go",
-    ],
-    embed = [":go_default_library"],
-    deps = [
-        "//vendor/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions:go_default_library",
-        "//vendor/k8s.io/apimachinery/pkg/runtime:go_default_library",
-    ],
 )

@@ -16,6 +16,7 @@ go_library(
         "types_swagger_doc_generated.go",
         "zz_generated.deepcopy.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/api/storage/v1alpha1",
     importpath = "k8s.io/api/storage/v1alpha1",
     visibility = ["//visibility:public"],
     deps = [

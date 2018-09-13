@@ -1,23 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load(
-    "@io_bazel_rules_go//go:def.bzl",
-    "go_library",
-    "go_test",
-)
-
-go_test(
-    name = "go_default_test",
-    srcs = [
-        "http_test.go",
-        "interface_test.go",
-        "port_range_test.go",
-        "port_split_test.go",
-        "util_test.go",
-    ],
-    embed = [":go_default_library"],
-    deps = ["//vendor/github.com/spf13/pflag:go_default_library"],
-)
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "go_default_library",
@@ -28,6 +11,7 @@ go_library(
         "port_split.go",
         "util.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/util/net",
     importpath = "k8s.io/apimachinery/pkg/util/net",
     deps = [
         "//vendor/github.com/golang/glog:go_default_library",

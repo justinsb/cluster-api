@@ -1,31 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load(
-    "@io_bazel_rules_go//go:def.bzl",
-    "go_library",
-    "go_test",
-)
-
-go_test(
-    name = "go_default_test",
-    srcs = [
-        "controller_ref_test.go",
-        "duration_test.go",
-        "group_version_test.go",
-        "helpers_test.go",
-        "labels_test.go",
-        "micro_time_test.go",
-        "time_test.go",
-        "types_test.go",
-    ],
-    embed = [":go_default_library"],
-    deps = [
-        "//vendor/github.com/ghodss/yaml:go_default_library",
-        "//vendor/github.com/json-iterator/go:go_default_library",
-        "//vendor/k8s.io/apimachinery/pkg/labels:go_default_library",
-        "//vendor/k8s.io/apimachinery/pkg/runtime/schema:go_default_library",
-    ],
-)
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "go_default_library",
@@ -50,6 +25,7 @@ go_library(
         "zz_generated.deepcopy.go",
         "zz_generated.defaults.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/apis/meta/v1",
     importpath = "k8s.io/apimachinery/pkg/apis/meta/v1",
     deps = [
         "//vendor/github.com/gogo/protobuf/proto:go_default_library",
@@ -89,13 +65,4 @@ filegroup(
     name = "go_default_library_protos",
     srcs = ["generated.proto"],
     visibility = ["//visibility:public"],
-)
-
-go_test(
-    name = "go_default_xtest",
-    srcs = ["conversion_test.go"],
-    deps = [
-        "//vendor/k8s.io/apimachinery/pkg/api/equality:go_default_library",
-        "//vendor/k8s.io/apimachinery/pkg/apis/meta/v1:go_default_library",
-    ],
 )

@@ -8,6 +8,7 @@ load(
 go_library(
     name = "go_default_library",
     srcs = ["uuid.go"],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/util/uuid",
     importpath = "k8s.io/apimachinery/pkg/util/uuid",
     deps = [
         "//vendor/github.com/pborman/uuid:go_default_library",

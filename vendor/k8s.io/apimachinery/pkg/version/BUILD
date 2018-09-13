@@ -11,6 +11,7 @@ go_library(
         "doc.go",
         "types.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/version",
     importpath = "k8s.io/apimachinery/pkg/version",
 )
 

@@ -13,6 +13,7 @@ go_library(
         "doc.go",
         "generated_expansion.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1",
     importpath = "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1",
     deps = [
         "//vendor/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1beta1:go_default_library",

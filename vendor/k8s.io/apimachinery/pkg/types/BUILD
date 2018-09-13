@@ -14,6 +14,7 @@ go_library(
         "patch.go",
         "uid.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/types",
     importpath = "k8s.io/apimachinery/pkg/types",
 )
 

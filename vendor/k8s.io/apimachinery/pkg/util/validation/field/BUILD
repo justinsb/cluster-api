@@ -1,19 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load(
-    "@io_bazel_rules_go//go:def.bzl",
-    "go_library",
-    "go_test",
-)
-
-go_test(
-    name = "go_default_test",
-    srcs = [
-        "errors_test.go",
-        "path_test.go",
-    ],
-    embed = [":go_default_library"],
-)
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "go_default_library",
@@ -21,6 +8,7 @@ go_library(
         "errors.go",
         "path.go",
     ],
+    importmap = "sigs.k8s.io/cluster-api/vendor/k8s.io/apimachinery/pkg/util/validation/field",
     importpath = "k8s.io/apimachinery/pkg/util/validation/field",
     deps = [
         "//vendor/k8s.io/apimachinery/pkg/util/errors:go_default_library",
