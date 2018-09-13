@@ -103,7 +103,7 @@ type ReconcileMachineSet struct {
 func (r *ReconcileMachineSet) MachineSetToMachines(o handler.MapObject) []reconcile.Request {
 	result := []reconcile.Request{}
 	m := &clusterv1alpha1.Machine{}
-	key := client.ObjectKey{Namespace: o.Meta.GetNamespace(), Name: o.Meta.GetNamespace()}
+	key := client.ObjectKey{Namespace: o.Meta.GetNamespace(), Name: o.Meta.GetName()}
 	err := r.Client.Get(context.Background(), key, m)
 	if err != nil {
 		glog.Errorf("Unable to retrieve Machine %v from store: %v", key, err)
